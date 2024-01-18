@@ -9,14 +9,14 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 var policy = "policy";
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: policy, policy =>
-    {
-        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-    });
-}
-    );
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy(name: policy, policy =>
+//    {
+//        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+//    });
+//});
+   
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

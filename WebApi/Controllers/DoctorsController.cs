@@ -11,10 +11,17 @@ namespace WebApi.Controllers
     {
         private static List<Doctors> doctors = new List<Doctors>
         {
-            new Doctors { NameDoctor ="avi", DoctorId=123,SpecializationDoctor="Pediatrician" },
+            new Doctors { NameDoctor ="avi", DoctorId=123,SpecializationDoctor="doctor of children" },
             new Doctors { NameDoctor ="dani", DoctorId=456,SpecializationDoctor="family doctor" },
             new Doctors { NameDoctor ="shalom", DoctorId=78910,SpecializationDoctor="Ophthalmologist" },
         };
+
+        private readonly DataContext _context;
+
+        public DoctorsController(DataContext context)
+        {
+            _context = context;
+        }
         [HttpGet]
         public IEnumerable<Doctors> Get()
         {

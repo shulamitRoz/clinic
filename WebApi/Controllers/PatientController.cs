@@ -16,12 +16,19 @@ namespace WebApi.Controllers
          new Patients{ PatienName="chaim", PatientId=321,Status=  "Over the age of 60"}
 
         };
+        private readonly PatientController _context;
+
+        public PatientController (DataContext context)
+        {
+            _context = context;
+        }
         [HttpGet]
         public IEnumerable<Patients> Get()
         {
             return patients;
-
+            
         }
+
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
@@ -60,6 +67,11 @@ namespace WebApi.Controllers
             
             int index = patients.FindIndex((Patients e) => { return e.PatientId == id; });
             patients.RemoveAt(index);
+        }
+
+        public static implicit operator PatientController(DataContext v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

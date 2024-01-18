@@ -7,5 +7,7 @@
         public string Title { get; set; }
 
         public DateTime DateTurn { get; set; }
+
+        public string TypeOfDoctor { get; set; }
     }
 }
