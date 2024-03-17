@@ -19,8 +19,8 @@ namespace WebApi.Data.DataRepository
         }
         public IEnumerable<Turn> Getallturns()
         {
-            return _turnData.turnes;
-                //.Include(d => d.Doctor) ;
+            return _turnData.turnes.Include(d => d.Doctor);
+
         }
         public Turn GetTurnById(int id)
         {
@@ -29,16 +29,15 @@ namespace WebApi.Data.DataRepository
         }
         public void AddTurn(Turn turn)
         {
-           _turnData.turnes.ToList().Add(turn);
+           _turnData.turnes.Add(turn);
             _turnData.SaveChanges();
 
         }
         public Turn PutTurn(int id, Turn turn)
+
         {
             int index = _turnData.turnes.ToList().FindIndex((Turn e) => e.Id == id);
 
-
-            _turnData.turnes.ToList()[index].TurnNumber = turn.TurnNumber;
             _turnData.turnes.ToList()[index].DateTurn = DateTime.Now;
             _turnData.turnes.ToList()[index].Title = turn.Title;
             _turnData.turnes.ToList()[index].TypeOfDoctor = turn.TypeOfDoctor;
@@ -47,7 +46,6 @@ namespace WebApi.Data.DataRepository
         }
         public void DeleteTurn(int index)
         {
-
             _turnData.turnes.Remove(_turnData.turnes.ToList()[index]);
             _turnData.SaveChanges();
         }

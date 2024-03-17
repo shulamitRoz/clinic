@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using WebApi;
+using WebApi.Core;
 using WebApi.Core.Models;
 using WebApi.Core.ServiesModeld;
 using WebApi.Data;
@@ -42,8 +43,8 @@ builder.Services.AddCors(options =>
         policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
     });
 });
-
-
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+//builder.Services.AddSingleton<Mapping>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

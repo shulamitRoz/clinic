@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Core.DTO;
 using WebApi.Core.ServiesModeld;
 using WebApi.Entities;
 using WebApi.Servies.ServiesRepository;
@@ -18,34 +20,41 @@ namespace WebApi.Controllers
         //    new Turn {TurnNumber=3,DateTurn=DateTime.Today,Title="doctor's checkup",TypeOfDoctor="doctor of children"},
         //};
         private readonly ITurnServices _iTurnServies;
-
-        public TurnController (ITurnServices context)
+        private readonly IMapper _mapper;
+        public TurnController (ITurnServices context,IMapper mapper)
         {
             _iTurnServies = context;
+            _mapper = mapper;
         }
         [HttpGet]
-        public IEnumerable<Turn> Get()
+        public ActionResult<Turn> Get()
         {
-            return _iTurnServies.GetListTurns();
+            var list =_iTurnServies.GetListTurns();
+            var newList=_mapper.Map<IEnumerable<TurnDto>>(list);
+            return Ok(newList);
 
         }
         [HttpGet("{id}")]
-        public Turn Get(int id)
+        public ActionResult Get(int id)
         {
-            return _iTurnServies.GetTurnById(id);
+            var turn=_iTurnServies.GetTurnById(id);
+            var newTurn=_mapper.Map<TurnDto>(turn);
+            return Ok(newTurn);
 
         }
         [HttpPost]
-        public void Post([FromBody] Turn newEvent)
+        public void Post([FromBody] TurnDto newEvent)
         {
-             _iTurnServies.AddTurn(newEvent); 
+            var turnToAdd=_mapper.Map<Turn>(newEvent);     
+            _iTurnServies.AddTurn(turnToAdd); 
             //return _iTurnServies.GetListTurns()[_iTurnServies.GetListTurns().Count - 1];
 
         }
         [HttpPut("{id}")]
-        public Turn Put(int num, [FromBody] Turn updateEvent)
+        public Turn Put(int id, [FromBody] TurnDto updateEvent)
         {
-            return _iTurnServies.PutTurn(num, updateEvent);
+            var turnToUpdate = _mapper.Map<Turn>(updateEvent);
+            return _iTurnServies.UpDate(id, turnToUpdate);
         }
         [HttpDelete("{id}")]
         public void Delete(int num)

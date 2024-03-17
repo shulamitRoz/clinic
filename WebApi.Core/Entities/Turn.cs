@@ -10,6 +10,8 @@
         public DateTime DateTurn { get; set; }
 
         public string TypeOfDoctor { get; set; }
-       // public Doctors Doctor { get; set; }
+        public int DoctorID { get; set; }   
+        public Doctors Doctor { get; set; }
+        public Patients Patient { get; set; }
     }
 }

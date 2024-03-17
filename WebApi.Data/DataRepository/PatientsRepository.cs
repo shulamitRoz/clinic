@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace WebApi.Data.DataRepository
         }
         public IEnumerable<Patients> GetAllPatient()
         {
-            return _PatientData.patients;
+            return _PatientData.patients.Include(d => d.Doctors);
         }
         public Patients GetPatientById(int id)
         {

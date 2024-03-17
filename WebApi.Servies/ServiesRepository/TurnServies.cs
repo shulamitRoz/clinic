@@ -35,9 +35,9 @@ namespace WebApi.Servies.ServiesRepository
              _turn.AddTurn(turn);
         }
 
-        public Turn PutTurn(int id, Turn turn)
+        public Turn UpDate(int id, Turn turn)
         {
-            if (id != -1)
+            if (id != -1)        
             {
                 return _turn.PutTurn(id, turn);
             }

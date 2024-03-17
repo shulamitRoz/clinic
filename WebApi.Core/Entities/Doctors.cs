@@ -7,7 +7,8 @@
         
         public string SpecializationDoctor { get; set; }
 
-       // public List <Turn> turn { get; set; }
+        public List <Turn> turnes { get; set; }
+        public List<Patients> patients { get; set; }
 
     }
 }

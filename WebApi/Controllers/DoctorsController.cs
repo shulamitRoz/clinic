@@ -1,8 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using WebApi.Core;
+using WebApi.Core.DTO;
 using WebApi.Core.ServiesModeld;
 using WebApi.Entities;
+using WebApi.Models;
+using WebApi.Servies.ServiesRepository;
 
 namespace WebApi.Controllers
 {
@@ -18,55 +23,61 @@ namespace WebApi.Controllers
         //};
 
         private readonly IDoctorServies _doctorServies;
-
-        public DoctorsController(IDoctorServies context)
+        //private readonly Mapping _mapping;
+        private readonly IMapper _mapper;
+        public DoctorsController(IDoctorServies context, IMapper mapper)
         {
             _doctorServies = context;
+           _mapper = mapper ;
         }
         [HttpGet]
-        public IEnumerable<Doctors> Get()
+        public ActionResult<Doctors> Get()
         {
-            return _doctorServies.GetListDoctors();
+
+            var list = _doctorServies.GetListDoctors();
+            Console.WriteLine(list);
+            var listDto = _mapper.Map<IEnumerable<DoctorDto>>(list);
+
+            return Ok(listDto);
 
         }
         [HttpGet("{id}")]
-        public Doctors Get(int id)
+        public ActionResult Get(int id)
         {
-            return _doctorServies.GetDoctors(id);        
-            //var isIDExists = _doctorServies.GetListDoctors().Find(e => e.Id == id);
-            //if (isIDExists == null)
-            //    return NotFound();
-            //else
-            //    return Ok(isIDExists);
+            var doctor = _doctorServies.GetDoctors(id);
+            //var doctorDto=_mapping.MapToDoctorDto(doctor);         
+            var doctorDto = _mapper.Map<DoctorDto>(doctor);
+            return Ok(doctorDto);
+ 
         }
         [HttpPost]
-        public void Post([FromBody] Doctors newEvent)
+        public void Post([FromBody] DoctorDto newEvent)
         {
-            _doctorServies.AddListDoctors(newEvent);
+            var DoctorToAdd = _mapper.Map<Doctors>(newEvent);
+
+            _doctorServies.AddListDoctors(DoctorToAdd);
+            //var doctorToAdd = new Doctors { NameDoctor = newEvent.NameDoctor, SpecializationDoctor = newEvent.SpecializationDoctor };
+            //_doctorServies.AddListDoctors(doctorToAdd);
+
         }
         [HttpPut("{id}")]
-        public Doctors Put(int id, [FromBody] string updateEvent)
+        public Doctors Put(int id, [FromBody] DoctorDto updateEvent)
         {
-        
-            return _doctorServies.updateDoctor(id, updateEvent);
-             
+            var doctorToUpdate = _mapper.Map<Doctors>(updateEvent);
+            return _doctorServies.updateDoctor(id, doctorToUpdate.SpecializationDoctor);
+               
+            //var putDoctor = new Doctors { SpecializationDoctor = updateEvent.SpecializationDoctor };
+            //string ChangeDoctor = putDoctor.ToString();
+            //return _doctorServies.updateDoctor(id, ChangeDoctor);
+
         }
         [HttpDelete("{id}")]
         public void Delete(int id)
-        {
-
-            //var isIDExists = _doctorServies.GetListDoctors().Find(e => e.DoctorId == id);
-            //if (isIDExists == null)
-            //    return NotFound();
-            //else
-            //    return Ok(isIDExists);
-          
-            //int index = _doctorServies.GetListDoctors().FindIndex((Doctors e) => { return e.DoctorId == id; });
-            //_doctorServies.GetListDoctors().RemoveAt(index);
+        {        
             _doctorServies.DeleteDoctor(id);
 
         }
 
     }
-    
+
 }

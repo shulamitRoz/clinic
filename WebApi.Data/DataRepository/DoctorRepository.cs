@@ -20,7 +20,7 @@ namespace WebApi.Data.DataRepository
         }
         public IEnumerable<Doctors> GetAllDoctors()
         {
-            return _DoctorData.doctors;
+            return _DoctorData.doctors.Include(p => p.patients);
         }
         
         public Doctors GetDoctorById(int id)

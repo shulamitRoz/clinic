@@ -12,7 +12,7 @@ namespace WebApi.Core.ServiesModeld
         public List<Turn> GetListTurns();
        public Turn GetTurnById(int id); 
         public void AddTurn(Turn turn);
-        public Turn PutTurn(int id, Turn turn);
+        public Turn UpDate(int id, Turn turn);
         public void DeleteTurn(int id);
     }
 }

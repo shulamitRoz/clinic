@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using WebApi.Core.DTO;
 using WebApi.Core.ServiesModeld;
 using WebApi.Entities;
 
@@ -18,40 +20,48 @@ namespace WebApi.Controllers
 
         //};
         private readonly IPatientServies _IPatientServies;
+        private readonly IMapper _mapper;
 
-        public PatientController(IPatientServies context)
+        public PatientController(IPatientServies context,IMapper mapper)
         {
             _IPatientServies = context;
+            _mapper = mapper;   
         }
         [HttpGet]
-        public IEnumerable<Patients> Get()
+        public ActionResult<Patients> Get()
+
+           
         {
-            return _IPatientServies.GetListPatients();
+            var list=_IPatientServies.GetListPatients();
+            var PetientList=_mapper.Map<IEnumerable<PatientDto>>(list);
+            return Ok(PetientList);
 
         }
 
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
-            return Ok(_IPatientServies.GetPatientById(id));
-            //var isIDExists = _IPatientServies.GetListPatients().Find(e => e.Id == id);
-            //if (isIDExists == null)
-            //    return NotFound();
-            //else
-            //    return Ok(isIDExists);
+            var patient= _IPatientServies.GetPatientById(id);   
+            var newPatient=_mapper.Map<PatientDto>(patient);
+            return Ok(newPatient);
+      
         }
         [HttpPost]
-        public void Post([FromBody] Patients newEvent)
+        public void Post([FromBody] PatientDto newEvent)
         {
-            _IPatientServies.PostPatient(newEvent);
+            var patientToAdd = _mapper.Map<Patients>(newEvent);
+            _IPatientServies.PostPatient(patientToAdd);
             //return _IPatientServies.GetListPatients()[_IPatientServies.GetListPatients().Count - 1];
         }
         [HttpPut("{id}")]
-        public Patients Put(int id, [FromBody] Patients updateEvent)
+        public Patients Put(int id, [FromBody] PatientDto updateEvent)
         {
+            var patientToAdd = _mapper.Map<Patients>(updateEvent);
 
-            return _IPatientServies.PutPatient(id, updateEvent);
+            return _IPatientServies.PutPatient(id, patientToAdd);
         }
+
+
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
