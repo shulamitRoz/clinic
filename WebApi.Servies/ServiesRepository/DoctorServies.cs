@@ -36,8 +36,8 @@ namespace WebApi.Servies.serviesRepository
             int index = _doctor.GetAllDoctors().ToList().FindIndex((Doctors e) => e.Id == id );
             if(index != -1)
             {
-                string updateDoctor = _doctor.GetAllDoctors().ToList()[index].SpecializationDoctor = doctors;
-                _doctor.PutDoctor(index, updateDoctor);
+               // string updateDoctor = _doctor.GetAllDoctors().ToList()[index].NameDoctor = doctors;
+                _doctor.PutDoctor(index, doctors);
                 return _doctor.GetAllDoctors().ToList()[index];
             }
             else return null;   

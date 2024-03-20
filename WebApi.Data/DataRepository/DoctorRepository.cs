@@ -32,10 +32,13 @@ namespace WebApi.Data.DataRepository
            _DoctorData.doctors.Add(doctors);
             _DoctorData.SaveChanges();
         }
-        public void PutDoctor(int index,string doctors)
+        public Doctors PutDoctor(int index,string doctors)
         {
-            _DoctorData.doctors.ToList()[index].SpecializationDoctor = doctors;
+            
+            _DoctorData.doctors.ToList()[index].NameDoctor = doctors;
+            return _DoctorData.doctors.ToList()[index];
             _DoctorData.SaveChanges();
+           
         }
         public void DeleteDoctor(int index)
         {

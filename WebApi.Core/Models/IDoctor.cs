@@ -12,7 +12,7 @@ namespace WebApi.Core.Models
         public IEnumerable<Doctors> GetAllDoctors();
         public Doctors GetDoctorById(int id);   
         public void AddDoctor(Doctors doctors);
-        public void PutDoctor(int index,string doctors);
+        public Doctors PutDoctor(int index,string doctors);
         public void DeleteDoctor(int index);
 
 

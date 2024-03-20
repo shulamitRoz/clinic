@@ -64,7 +64,7 @@ namespace WebApi.Controllers
         public Doctors Put(int id, [FromBody] DoctorDto updateEvent)
         {
             var doctorToUpdate = _mapper.Map<Doctors>(updateEvent);
-            return _doctorServies.updateDoctor(id, doctorToUpdate.SpecializationDoctor);
+            return _doctorServies.updateDoctor(id, doctorToUpdate.NameDoctor);
                
             //var putDoctor = new Doctors { SpecializationDoctor = updateEvent.SpecializationDoctor };
             //string ChangeDoctor = putDoctor.ToString();
