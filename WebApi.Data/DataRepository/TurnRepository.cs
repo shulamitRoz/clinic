@@ -22,18 +22,18 @@ namespace WebApi.Data.DataRepository
             return _turnData.turnes.Include(d => d.Doctor);
 
         }
-        public Turn GetTurnById(int id)
+        public async Task<Turn> GetTurnByIdAsync(int id)
         {
            return _turnData.turnes.ToList().Find(e => e.Id == id);
-            _turnData.SaveChanges();
+          await  _turnData.SaveChangesAsync();
         }
-        public void AddTurn(Turn turn)
+        public async void AddTurnAsync(Turn turn)
         {
            _turnData.turnes.Add(turn);
-            _turnData.SaveChanges();
+           await _turnData.SaveChangesAsync();
 
         }
-        public Turn PutTurn(int id, Turn turn)
+        public async Task<Turn> PutTurnAsync(int id, Turn turn)
 
         {
             int index = _turnData.turnes.ToList().FindIndex((Turn e) => e.Id == id);
@@ -42,12 +42,12 @@ namespace WebApi.Data.DataRepository
             _turnData.turnes.ToList()[index].Title = turn.Title;
             _turnData.turnes.ToList()[index].TypeOfDoctor = turn.TypeOfDoctor;
             return _turnData.turnes.ToList()[index];
-            _turnData.SaveChanges();
+            await _turnData.SaveChangesAsync();
         }
-        public void DeleteTurn(int index)
+        public async void DeleteTurnAsync(int index)
         {
             _turnData.turnes.Remove(_turnData.turnes.ToList()[index]);
-            _turnData.SaveChanges();
+           await _turnData.SaveChangesAsync();
         }
     }
 }

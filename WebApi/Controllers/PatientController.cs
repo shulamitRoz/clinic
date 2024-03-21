@@ -13,12 +13,7 @@ namespace WebApi.Controllers
     [ApiController]
     public class PatientController : ControllerBase
     {
-        //private static List<Patients> patients = new List<Patients> { 
-        //new Patients{ PatienName="shulamit", PatientId=369,Status="Under the age of 18"},
-        // new Patients{ PatienName="chani", PatientId=654,Status=  "Over the age of 40"},
-        // new Patients{ PatienName="chaim", PatientId=321,Status=  "Over the age of 60"}
-
-        //};
+       
         private readonly IPatientServies _IPatientServies;
         private readonly IMapper _mapper;
 
@@ -39,9 +34,9 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult Get(int id)
+        public async Task<ActionResult> Get(int id)
         {
-            var patient= _IPatientServies.GetPatientById(id);   
+            var patient=await _IPatientServies. GetPatientByIdAsync(id);   
             var newPatient=_mapper.Map<PatientDto>(patient);
             return Ok(newPatient);
       
@@ -50,15 +45,15 @@ namespace WebApi.Controllers
         public void Post([FromBody] PatientDto newEvent)
         {
             var patientToAdd = _mapper.Map<Patients>(newEvent);
-            _IPatientServies.PostPatient(patientToAdd);
-            //return _IPatientServies.GetListPatients()[_IPatientServies.GetListPatients().Count - 1];
+            _IPatientServies.AddPatientAsync(patientToAdd);
+           
         }
         [HttpPut("{id}")]
-        public Patients Put(int id, [FromBody] PatientDto updateEvent)
+        public async Task<Patients> UpdatePatientAsync(int id, [FromBody] PatientDto updateEvent)
         {
             var patientToAdd = _mapper.Map<Patients>(updateEvent);
 
-            return _IPatientServies.PutPatient(id, patientToAdd);
+            return await _IPatientServies.UpdatePatientAsync(id, patientToAdd);
         }
 
 
@@ -66,7 +61,7 @@ namespace WebApi.Controllers
         public void Delete(int id)
         {
 
-            _IPatientServies.DeletePatient(id);
+            _IPatientServies.DeletePatientAsync(id);
         }
 
 

@@ -22,29 +22,29 @@ namespace WebApi.Data.DataRepository
         {
             return _DoctorData.doctors.Include(p => p.patients);
         }
-        
+
         public Doctors GetDoctorById(int id)
         {
             return _DoctorData.doctors.ToList().Find(e => e.Id == id);
         }
-        public void AddDoctor(Doctors doctors)
+        public async void AddDoctorAsync(Doctors doctors)
         {
-           _DoctorData.doctors.Add(doctors);
-            _DoctorData.SaveChanges();
+            _DoctorData.doctors.Add(doctors);
+            await _DoctorData.SaveChangesAsync();
         }
-        public Doctors PutDoctor(int index,string doctors)
+        public async Task<Doctors>PutDoctorAsync(int index, string doctors)
         {
-            
+
             _DoctorData.doctors.ToList()[index].NameDoctor = doctors;
             return _DoctorData.doctors.ToList()[index];
-            _DoctorData.SaveChanges();
-           
+            await _DoctorData.SaveChangesAsync();
+
         }
-        public void DeleteDoctor(int index)
+        public async void DeleteDoctorAsync(int index)
         {
             //_DoctorData.doctors.ToList().RemoveAt(index);
             _DoctorData.Remove(_DoctorData.doctors.ToList()[index]);
-            _DoctorData.SaveChanges();
+            await _DoctorData.SaveChangesAsync();
         }
     }
 }

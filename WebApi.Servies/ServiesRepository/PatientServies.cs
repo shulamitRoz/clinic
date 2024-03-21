@@ -22,31 +22,31 @@ namespace WebApi.Servies.ServiesRepository
         {
             return _patien.GetAllPatient();
         }
-        public Patients GetPatientById(int id)
+        public async Task<Patients> GetPatientByIdAsync(int id)
         {
-            return _patien.GetPatientById(id);
+            return await _patien.GetPatientByIdAsync(id);
 
         }
-        public void PostPatient(Patients patients)
+        public void AddPatientAsync(Patients patients)
         {
-            _patien.AddPatient(patients);
+            _patien.AddPatientAsync(patients);
         }
-        public Patients PutPatient(int id, Patients patients)
+        public async Task<Patients> UpdatePatientAsync(int id, Patients patients)
         {
             if (id != -1)
             {
-                return _patien.UpdatePatient(id, patients);
+                return await _patien.UpdatePatientAsync(id, patients);
             }
             else return null;
 
         }
-        public void DeletePatient(int id)
+        public void DeletePatientAsync(int id)
         {
             int index = _patien.GetAllPatient().ToList().FindIndex((Patients e) => e.Id == id);
 
             if (index != -1)
             {
-                _patien.DeletePatient(index);
+                _patien.DeletePatientAsync(index);
 
             }
         }

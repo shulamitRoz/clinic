@@ -10,9 +10,9 @@ namespace WebApi.Core.Models
     public interface IPatient
     {
         public IEnumerable<Patients> GetAllPatient();
-        public Patients GetPatientById(int id);
-        public void AddPatient(Patients patient);
-        public Patients UpdatePatient(int id, Patients patients);
-        public void DeletePatient(int id);  
+        public Task<Patients> GetPatientByIdAsync(int id);
+        public void AddPatientAsync(Patients patient);
+        public Task<Patients> UpdatePatientAsync(int id, Patients patients);
+        public void DeletePatientAsync(int id);  
     }
 }

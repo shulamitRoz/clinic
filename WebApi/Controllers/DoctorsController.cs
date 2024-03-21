@@ -55,26 +55,23 @@ namespace WebApi.Controllers
         {
             var DoctorToAdd = _mapper.Map<Doctors>(newEvent);
 
-            _doctorServies.AddListDoctors(DoctorToAdd);
+           _doctorServies.AddDoctorAsync(DoctorToAdd);
             //var doctorToAdd = new Doctors { NameDoctor = newEvent.NameDoctor, SpecializationDoctor = newEvent.SpecializationDoctor };
             //_doctorServies.AddListDoctors(doctorToAdd);
 
         }
         [HttpPut("{id}")]
-        public Doctors Put(int id, [FromBody] DoctorDto updateEvent)
+        public async Task<Doctors> PutDoctorAsync(int id, [FromBody] DoctorDto updateEvent)
         {
             var doctorToUpdate = _mapper.Map<Doctors>(updateEvent);
-            return _doctorServies.updateDoctor(id, doctorToUpdate.NameDoctor);
+            return await _doctorServies.PutDoctorAsync(id, doctorToUpdate.NameDoctor);
                
-            //var putDoctor = new Doctors { SpecializationDoctor = updateEvent.SpecializationDoctor };
-            //string ChangeDoctor = putDoctor.ToString();
-            //return _doctorServies.updateDoctor(id, ChangeDoctor);
 
         }
         [HttpDelete("{id}")]
         public void Delete(int id)
         {        
-            _doctorServies.DeleteDoctor(id);
+            _doctorServies.DeleteDoctorAsync(id);
 
         }
 

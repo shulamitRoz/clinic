@@ -10,9 +10,9 @@ namespace WebApi.Core.ServiesModeld
     public interface ITurnServices
     {
         public List<Turn> GetListTurns();
-       public Turn GetTurnById(int id); 
-        public void AddTurn(Turn turn);
-        public Turn UpDate(int id, Turn turn);
-        public void DeleteTurn(int id);
+       public Task<Turn> GetTurnByIdAsync(int id); 
+        public void AddTurnAsync(Turn turn);
+        public Task<Turn> PutTurnAsync(int id, Turn turn);
+        public void DeleteTurnAsync(int id);
     }
 }

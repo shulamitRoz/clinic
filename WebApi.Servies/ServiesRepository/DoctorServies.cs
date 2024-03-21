@@ -9,7 +9,7 @@ using WebApi.Entities;
 
 namespace WebApi.Servies.serviesRepository
 {
-    public class DoctorServies: IDoctorServies
+    public class DoctorServies : IDoctorServies
     {
         private readonly IDoctor _doctor;
 
@@ -17,7 +17,7 @@ namespace WebApi.Servies.serviesRepository
         {
             _doctor = doctor;
         }
-        
+
         public List<Doctors> GetListDoctors()
         {
             return _doctor.GetAllDoctors().ToList();
@@ -27,30 +27,30 @@ namespace WebApi.Servies.serviesRepository
         {
             return _doctor.GetDoctorById(id);
         }
-        public void AddListDoctors(Doctors doctors)
+        public async void AddDoctorAsync(Doctors doctors)
         {
-            _doctor.AddDoctor(doctors);
+            _doctor.AddDoctorAsync(doctors);
         }
-        public Doctors updateDoctor(int id,string doctors)
+        public async Task<Doctors> PutDoctorAsync(int id, string doctors)
         {
-            int index = _doctor.GetAllDoctors().ToList().FindIndex((Doctors e) => e.Id == id );
-            if(index != -1)
-            {
-               // string updateDoctor = _doctor.GetAllDoctors().ToList()[index].NameDoctor = doctors;
-                _doctor.PutDoctor(index, doctors);
-                return _doctor.GetAllDoctors().ToList()[index];
-            }
-            else return null;   
-
-        }
-        public void DeleteDoctor(int id)
-        {
-
-            int index = _doctor.GetAllDoctors().ToList().FindIndex((Doctors e) =>  e.Id == id);
+            int index = _doctor.GetAllDoctors().ToList().FindIndex((Doctors e) => e.Id == id);
             if (index != -1)
             {
-                _doctor.DeleteDoctor(index);
-            }    
+                // string updateDoctor = _doctor.GetAllDoctors().ToList()[index].NameDoctor = doctors;
+                await _doctor.PutDoctorAsync(index, doctors);
+                return _doctor.GetAllDoctors().ToList()[index];
+            }
+            else return null;
+
+        }
+        public void DeleteDoctorAsync(int id)
+        {
+
+            int index = _doctor.GetAllDoctors().ToList().FindIndex((Doctors e) => e.Id == id);
+            if (index != -1)
+            {
+                _doctor.DeleteDoctorAsync(index);
+            }
         }
     }
 }

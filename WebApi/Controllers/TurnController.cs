@@ -13,12 +13,6 @@ namespace WebApi.Controllers
     public class TurnController : ControllerBase
 
     {
-        //private static List<Turn> turns = new List<Turn>
-        //{
-        //    new Turn {TurnNumber=1,DateTurn=DateTime.Today,Title="Blood Test" ,TypeOfDoctor="doctor of children"},
-        //    new Turn {TurnNumber=2,DateTurn=DateTime.Now,Title="flu shot",TypeOfDoctor="doctor of children"},
-        //    new Turn {TurnNumber=3,DateTurn=DateTime.Today,Title="doctor's checkup",TypeOfDoctor="doctor of children"},
-        //};
         private readonly ITurnServices _iTurnServies;
         private readonly IMapper _mapper;
         public TurnController (ITurnServices context,IMapper mapper)
@@ -35,9 +29,9 @@ namespace WebApi.Controllers
 
         }
         [HttpGet("{id}")]
-        public ActionResult Get(int id)
+        public async Task<ActionResult> Get(int id)
         {
-            var turn=_iTurnServies.GetTurnById(id);
+            var turn=await _iTurnServies.GetTurnByIdAsync(id);
             var newTurn=_mapper.Map<TurnDto>(turn);
             return Ok(newTurn);
 
@@ -46,20 +40,20 @@ namespace WebApi.Controllers
         public void Post([FromBody] TurnDto newEvent)
         {
             var turnToAdd=_mapper.Map<Turn>(newEvent);     
-            _iTurnServies.AddTurn(turnToAdd); 
+            _iTurnServies.AddTurnAsync(turnToAdd); 
             //return _iTurnServies.GetListTurns()[_iTurnServies.GetListTurns().Count - 1];
 
         }
         [HttpPut("{id}")]
-        public Turn Put(int id, [FromBody] TurnDto updateEvent)
+        public async Task< Turn >Put(int id, [FromBody] TurnDto updateEvent)
         {
             var turnToUpdate = _mapper.Map<Turn>(updateEvent);
-            return _iTurnServies.UpDate(id, turnToUpdate);
+            return await _iTurnServies.PutTurnAsync(id, turnToUpdate);
         }
         [HttpDelete("{id}")]
         public void Delete(int num)
         {
-            _iTurnServies.DeleteTurn(num);  
+            _iTurnServies.DeleteTurnAsync(num);  
             
         }
 

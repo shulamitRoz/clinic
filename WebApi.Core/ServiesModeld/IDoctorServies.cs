@@ -11,8 +11,8 @@ namespace WebApi.Core.ServiesModeld
     {
         public List<Doctors> GetListDoctors();
         public Doctors GetDoctors(int id);
-        public void AddListDoctors(Doctors doctors);
-        public Doctors updateDoctor(int id, string doctor);
-        public void DeleteDoctor(int id);   
+        public void AddDoctorAsync(Doctors doctors);
+        public Task<Doctors> PutDoctorAsync(int id, string doctor);
+        public void DeleteDoctorAsync(int id);   
     }
 }

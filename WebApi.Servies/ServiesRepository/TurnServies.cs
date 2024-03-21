@@ -21,36 +21,36 @@ namespace WebApi.Servies.ServiesRepository
         {
             return _turn.Getallturns().ToList();
         }
-        public Turn GetTurnById(int id)
+        public async Task<Turn> GetTurnByIdAsync(int id)
         {
 
             if (id != -1)
             {
-                return _turn.GetTurnById(id);
+                return await _turn.GetTurnByIdAsync(id);
             }
             else return null;
         }
-        public void AddTurn(Turn turn)
+        public void AddTurnAsync(Turn turn)
         {
-             _turn.AddTurn(turn);
+             _turn.AddTurnAsync(turn);
         }
 
-        public Turn UpDate(int id, Turn turn)
+        public async Task<Turn> PutTurnAsync(int id, Turn turn)
         {
             if (id != -1)        
             {
-                return _turn.PutTurn(id, turn);
+                return await _turn.PutTurnAsync(id, turn);
             }
             else return null;
 
         }
-        public void DeleteTurn(int id)
+        public void DeleteTurnAsync(int id)
         {
             int index = _turn.Getallturns().ToList().FindIndex((Turn e) => e.Id == id);
 
             if (index != -1)
             {
-                _turn.DeleteTurn(index);
+                _turn.DeleteTurnAsync(index);
 
             }
         }

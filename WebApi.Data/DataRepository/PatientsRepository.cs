@@ -21,35 +21,35 @@ namespace WebApi.Data.DataRepository
         {
             return _PatientData.patients.Include(d => d.Doctors);
         }
-        public Patients GetPatientById(int id)
+        public async Task<Patients> GetPatientByIdAsync(int id)
         {
             if (id != -1)
             {
                 return _PatientData.patients.ToList().Find(e => e.Id == id);
             }
             else return null;
-            _PatientData.SaveChanges();
+           await _PatientData.SaveChangesAsync();
 
         }
-        public void AddPatient(Patients patient)
+        public async void AddPatientAsync(Patients patient)
         {
             _PatientData.patients.Add(patient);
-            _PatientData.SaveChanges();
+           await _PatientData.SaveChangesAsync();
         }
-        public Patients UpdatePatient(int id, Patients patien)
+        public async Task<Patients> UpdatePatientAsync(int id, Patients patien)
         {
             int index = _PatientData.patients.ToList().FindIndex((Patients e) => e.Id == id);
 
             _PatientData.patients.ToList()[index].PatienName = patien.PatienName;
             _PatientData.patients.ToList()[index].Status = patien.Status;
             return _PatientData.patients.ToList()[index];
-            _PatientData.SaveChanges();
+            await _PatientData.SaveChangesAsync();
         }
-        public void DeletePatient(int index)
+        public async void DeletePatientAsync(int index)
         {
 
             _PatientData.patients.Remove(_PatientData.patients.ToList()[index]);
-            _PatientData.SaveChanges();
+          await  _PatientData.SaveChangesAsync();
         }
     }
 }
